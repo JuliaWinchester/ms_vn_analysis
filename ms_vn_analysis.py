@@ -35,6 +35,7 @@ r = db_query(c, sql)
 
 genusDict = {}
 for t in r:
+	pickle.dump(genusDict, open("genusDict.p", "wb"))
 	print t['genus'] + ' ' + t['species']
 	if t['genus'] not in genusDict:
 		genusDict[t['genus']] = {}
@@ -42,45 +43,48 @@ for t in r:
 		genusDict[t['genus']]['taxonomies'] = []
 	genusDict[t['genus']]['sp'].append(t['species'])
 	resp = requests.get(vn_url(t['genus'], t['species']))
-	json = resp.json()
-	for specimen in json['recs']:
-		if 'kingdom' in specimen:
-			k = specimen['kingdom']
-		else:
-			k = ''
-		if 'phylum' in specimen:
-			p = specimen['phylum']
-		else:
-			p = ''
-		if 'class' in specimen:
-			c = specimen['class']
-		else:
-			c = ''
-		if 'order' in specimen:
-			o = specimen['order']
-		else:
-			o = ''
-		if 'family' in specimen:
-			f = specimen['family']
-		else:
-			f = ''
-		if 'genus' in specimen:
-			g = specimen['genus']
-		else:
-			g = ''
-		if 'specificepithet' in specimen:
-			s = specimen['specificepithet']
-		else:
-			s = ''
-		genusDict[t['genus']]['taxonomies'].append({
-			'kingdom' : k,
-			'phylum' : p,
-			'class' : c,
-			'order' : o,
-			'family' : f,
-			'genus' : g,
-			'species' : s 
-		})
+	try:
+		json = resp.json()
+		for specimen in json['recs']:
+			if 'kingdom' in specimen:
+				k = specimen['kingdom']
+			else:
+				k = ''
+			if 'phylum' in specimen:
+				p = specimen['phylum']
+			else:
+				p = ''
+			if 'class' in specimen:
+				c = specimen['class']
+			else:
+				c = ''
+			if 'order' in specimen:
+				o = specimen['order']
+			else:
+				o = ''
+			if 'family' in specimen:
+				f = specimen['family']
+			else:
+				f = ''
+			if 'genus' in specimen:
+				g = specimen['genus']
+			else:
+				g = ''
+			if 'specificepithet' in specimen:
+				s = specimen['specificepithet']
+			else:
+				s = ''
+			genusDict[t['genus']]['taxonomies'].append({
+				'kingdom' : k,
+				'phylum' : p,
+				'class' : c,
+				'order' : o,
+				'family' : f,
+				'genus' : g,
+				'species' : s 
+			})
+	except:
+		continue	
 
 pickle.dump(genusDict, open("genusDict.p", "wb"))
 
