@@ -3,9 +3,11 @@
 # Author: Julie Winchester <julia.m.winchester@gmail.com>
 # February 14, 2018
 
+from functools import reduce
 from requests import Request, Session
 import credentials
 import csv
+import operator
 import pymysql
 import requests
 import cPickle as pickle
@@ -26,6 +28,8 @@ def db_query(cursor, sql, args=None):
 
 def vn_url(genus, species):
 	return 'http://api.vertnet-portal.appspot.com/api/search?q=%7B%22q%22:%22genus:' + genus + '%20specificepithet:' + species + '%22%7D'
+
+# Taxonomy string (tstr) functions
 
 def create_tstr(kingdom='', phylum='', classs='', order='', family='', genus=''):
 	a = [kingdom.capitalize(), phylum.capitalize(), classs.capitalize(), order.capitalize(), family.capitalize(), genus.capitalize()]
@@ -100,6 +104,76 @@ def merge_tstr(tstr1, tstr2):
 				else:
 					x.append('')
 		return x
+
+# Tree functions
+
+def search_tree(t, value, rank=None, prepath=[], results=[]):
+    for k, v in t.iteritems():
+        path = prepath + [k]
+        if k == value and (rank is None or rank == len(path)): # found value
+            results.append(path)
+            return results
+        elif hasattr(v, 'items'): # v is a dict
+            results = search_tree(v, value, rank, path, results) # recursive call
+    return copy.deepcopy(results)
+
+def get_from_dict(d, key_list):
+    return reduce(operator.getitem, key_list, d)
+
+def set_in_dict(d, key_list, value):
+    get_from_dict(d, key_list[:-1])[key_list[-1]] = value
+
+
+def merge_tree_recursive(t, src, tgt, path_end=[], del_paths=[]):
+	del_paths = copy.deepcopy(del_paths)
+	src_dict = get_from_dict(t, src+path_end)
+	tgt_dict = get_from_dict(t, tgt+path_end)
+	for k,v in src_dict.iteritems():
+		if k in tgt_dict:
+			if type(v) is dict:
+				path_end.append(k)
+				t, path_end = merge_tree_recursive(t, src, tgt, path_end, del_paths)
+				path_end = path_end[:-1]
+			elif type(v) is list:
+				new_v = src_dict[k] + tgt_dict[k]
+				tgt_dict[k] = new_v
+			else:
+				raise ValueError('Non-list terminal node at ' + str(src+path_end+[k]))
+		else:
+			tgt_dict[k] = v
+	return t, path_end
+
+def merge_tree_path(t, src, tgt):
+	# Takes in a tree and two different paths, merges contents of src to target
+	if src == tgt or len(src) != len(tgt) or src[-1] != tgt[-1]:
+		return False
+	t, path_end = merge_tree_recursive(t, src, tgt, [])
+	del get_from_dict(t, src[:-1])[src[-1]]
+	return t
+
+# Misc functions
+
+def get_tn_uniques(t):
+	result = {'k': [], 'p': [], 'c': [], 'o': [], 'f': [], 'g': []}
+	for k, k_val in t.iteritems():
+		if k != '' and k not in result['k']:
+			result['k'].append(k)
+		for p, p_val in k_val.iteritems():
+			if p != '' and p not in result['p']:
+				result['p'].append(p)
+			for c, c_val in p_val.iteritems():
+				if c != '' and c not in result['c']:
+					result['c'].append(c)
+				for o, o_val in c_val.iteritems():
+					if o != '' and o not in result['o']:
+						result['o'].append(o)
+					for f, f_val in o_val.iteritems():
+						if f != '' and f not in result['f']:
+							result['f'].append(f)
+						for g, g_val in f_val.iteritems():
+							if g != '' and g not in result['g']:
+								result['g'].append(g)
+	return result
 
 # Get MorphoSource taxonomies
 
@@ -232,6 +306,169 @@ with sum_out:
 		genus_array.insert(0, num_tn)
 		genus_array.insert(0, genus)
 		writer.writerow(genus_array)
+
+# Create canonical taxonomy
+for genus, d in genusDict.iteritems():
+	if len(d['uniq_tn'].keys()) == 0:
+		d['canon_tn'] = None
+	else: 
+		d['canon_tn'] = sorted(d['uniq_tn'].items(), key=operator.itemgetter(1), reverse=True)[0][0]
+
+# Create taxonomy tree
+t = {}
+unsorted_genera = []
+for genus, d in genusDict.iteritems():
+	if not d['canon_tn']:
+		unsorted_genera.append(genus)
+	else:
+		k, p, c, o, f, g = split_tstr(d['canon_tn'])
+		if k not in t:
+			t[k] = {}
+		if p not in t[k]:
+			t[k][p] = {}
+		if c not in t[k][p]:
+			t[k][p][c] = {}
+		if o not in t[k][p][c]:
+			t[k][p][c][o] = {}
+		if f not in t[k][p][c][o]:
+			t[k][p][c][o][f] = {}
+		if g not in t[k][p][c][o][f]:
+			t[k][p][c][o][f][g] = d['sp']
+
+# output taxonomy tree
+tree_out = open('canon_taxonomy_tree.csv', 'w')
+with tree_out:
+	writer = csv.writer(tree_out)
+	writer.writerow(['kingdom', 'phylum', 'class', 'order', 'family', 'genus', 'species list'])
+	for k in t.keys():
+		writer.writerow([k])
+		for p in t[k].keys():
+			writer.writerow(['', p])
+			for c in t[k][p].keys():
+				writer.writerow(['', '', c])
+				for o in t[k][p][c].keys():
+					writer.writerow(['', '', '', o])
+					for f in t[k][p][c][o].keys():
+						writer.writerow(['', '', '', '', f])
+						for g in t[k][p][c][o][f].keys():
+							genus_array = ['', '', '', '', '', g]
+							if g in genusDict:
+								genus_array.extend(genusDict[g]['sp'])
+							writer.writerow(genus_array)
+
+
+
+# Associate hanging taxonomies with (any) fully fleshed out taxonomy
+for k in t.keys():
+	if k == '':
+		# No kingdom info
+		for p in t[k].keys():
+			if p == '':
+				# No kingdom, phylum info
+				for c in t[k][p].keys():
+					if c == '':
+						# No kingdom, phylum, class info
+						for o in t[k][p][c].keys():
+							if o == '':
+								# No kingdom, phylum, class, order info
+								for f in t[k][p][c][o].keys():
+									# Hanging family
+									matches = search_tree(t, f, None, [], [])
+									matches = [x for x in matches if x != [k, p, c, o, f]]
+									print matches
+									for i in range(0,len(matches)):
+										if i == 0:
+											t = merge_tree_path(t, [k, p, c, o, f], matches[i])
+										else:
+											t = merge_tree_path(t, matches[i-1], matches[i])
+
+# For each family
+
+tn_uniq = get_tn_uniques(t)
+
+# Try and merge taxonomies based on sub-category voting (# of sub-categories)
+for f in tn_uniq['f']:
+	matches = search_tree(t, f, 5, [], [])
+	match_len = {}
+	for i in range(0, len(matches)):
+		match_len[i] = len(get_from_dict(t, matches[i]))
+	max_match_i = sorted(match_len.items(), key=operator.itemgetter(1), reverse=True)[0][0]
+	match_max = matches[max_match_i]
+	matches_minus_max = [x for x in matches if x != match_max]
+	for m in matches_minus_max:
+		t = merge_tree_path(t, m, match_max)
+
+for o in tn_uniq['o']:
+	matches = search_tree(t, o, 4, [], [])
+	match_len = {}
+	for i in range(0, len(matches)):
+		match_len[i] = len(get_from_dict(t, matches[i]))
+	max_match_i = sorted(match_len.items(), key=operator.itemgetter(1), reverse=True)[0][0]
+	match_max = matches[max_match_i]
+	matches_minus_max = [x for x in matches if x != match_max]
+	for m in matches_minus_max:
+		t = merge_tree_path(t, m, match_max)
+
+for c in tn_uniq['c']:
+	matches = search_tree(t, c, 3, [], [])
+	match_len = {}
+	for i in range(0, len(matches)):
+		match_len[i] = len(get_from_dict(t, matches[i]))
+	max_match_i = sorted(match_len.items(), key=operator.itemgetter(1), reverse=True)[0][0]
+	match_max = matches[max_match_i]
+	matches_minus_max = [x for x in matches if x != match_max]
+	for m in matches_minus_max:
+		t = merge_tree_path(t, m, match_max)
+
+for p in tn_uniq['p']:
+	matches = search_tree(t, p, 2, [], [])
+	match_len = {}
+	for i in range(0, len(matches)):
+		match_len[i] = len(get_from_dict(t, matches[i]))
+	max_match_i = sorted(match_len.items(), key=operator.itemgetter(1), reverse=True)[0][0]
+	match_max = matches[max_match_i]
+	matches_minus_max = [x for x in matches if x != match_max]
+	for m in matches_minus_max:
+		t = merge_tree_path(t, m, match_max)
+
+for f in tn_uniq['f']:
+	matches = search_tree(t, f, 5, [], [])
+	match_len = {}
+	for i in range(0, len(matches)):
+		match_len[i] = len(get_from_dict(t, matches[i]))
+	max_match_i = sorted(match_len.items(), key=operator.itemgetter(1), reverse=True)[0][0]
+	match_max = matches[max_match_i]
+	matches_minus_max = [x for x in matches if x != match_max]
+	for m in matches_minus_max:
+		t = merge_tree_path(t, m, match_max)
+
+
+
+
+# output taxonomy tree cleaned
+tree_out = open('canon_taxonomy_tree_clean.csv', 'w')
+with tree_out:
+	writer = csv.writer(tree_out)
+	writer.writerow(['kingdom', 'phylum', 'class', 'order', 'family', 'genus', 'species list'])
+	for k in t.keys():
+		writer.writerow([k])
+		for p in t[k].keys():
+			writer.writerow(['', p])
+			for c in t[k][p].keys():
+				writer.writerow(['', '', c])
+				for o in t[k][p][c].keys():
+					writer.writerow(['', '', '', o])
+					for f in t[k][p][c][o].keys():
+						writer.writerow(['', '', '', '', f])
+						for g in t[k][p][c][o][f].keys():
+							genus_array = ['', '', '', '', '', g]
+							if g in genusDict:
+								genus_array.extend(genusDict[g]['sp'])
+							writer.writerow(genus_array)
+
+
+						
+
 
 
 
