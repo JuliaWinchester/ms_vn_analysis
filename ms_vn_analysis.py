@@ -442,31 +442,53 @@ for f in tn_uniq['f']:
 	for m in matches_minus_max:
 		t = merge_tree_path(t, m, match_max)
 
-
-
-
 # output taxonomy tree cleaned
-tree_out = open('canon_taxonomy_tree_clean.csv', 'w')
-with tree_out:
-	writer = csv.writer(tree_out)
-	writer.writerow(['kingdom', 'phylum', 'class', 'order', 'family', 'genus', 'species list'])
-	for k in t.keys():
-		writer.writerow([k])
-		for p in t[k].keys():
-			writer.writerow(['', p])
-			for c in t[k][p].keys():
-				writer.writerow(['', '', c])
-				for o in t[k][p][c].keys():
-					writer.writerow(['', '', '', o])
-					for f in t[k][p][c][o].keys():
-						writer.writerow(['', '', '', '', f])
-						for g in t[k][p][c][o][f].keys():
-							genus_array = ['', '', '', '', '', g]
-							if g in genusDict:
-								genus_array.extend(genusDict[g]['sp'])
-							writer.writerow(genus_array)
 
+def write_tree_csv(filename, t):
+	tree_out = open(filename, 'w')
+	with tree_out:
+		writer = csv.writer(tree_out)
+		writer.writerow(['kingdom', 'phylum', 'class', 'order', 'family', 'genus', 'species list'])
+		for k in t.keys():
+			writer.writerow([k])
+			for p in t[k].keys():
+				writer.writerow(['', p])
+				for c in t[k][p].keys():
+					writer.writerow(['', '', c])
+					for o in t[k][p][c].keys():
+						writer.writerow(['', '', '', o])
+						for f in t[k][p][c][o].keys():
+							writer.writerow(['', '', '', '', f])
+							for g in t[k][p][c][o][f].keys():
+								genus_array = ['', '', '', '', '', g]
+								genus_array.extend(t[k][p][c][o][f][g])
+								writer.writerow(genus_array)
 
+t = pickle.load(open('tn_tree_manual_clean.p', 'r'))
+
+# NEED TO ADD MISSING CODE HERE
+
+# Clean empty taxa
+for k in t.keys():
+	for p in t[k].keys():
+		for c in t[k][p].keys():
+			for o in t[k][p][c].keys():
+				for f in t[k][p][c][o].keys():
+					if t[k][p][c][o][f] == {}:
+						del t[k][p][c][o][f]
+				if t[k][p][c][o] == {}:
+					del t[k][p][c][o]
+			if t[k][p][c] == {}:
+				del t[k][p][c]
+		if t[k][p] == {}:
+			del t[k][p]
+	if t[k] == {}:
+		del t[k]
+
+pickle.dump(t, open('tn_tree_manual_clean_2.p','wb'))
+write_tree_csv('tn_tree_manual_clean_2.csv', t)
+				
+					
 						
 
 
