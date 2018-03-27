@@ -4,8 +4,10 @@ Old-kingdom,Old-phylum,Old-class,Old-order,Old-family,Old-genus,New-kingdom,New-
 ,,,,Cottidae(psychrolutidae),,Animalia,Chordata,Actinopterygii,Scorpaeniformes,Cottidae,
 ,,,,Melanocetidae,,Animalia,Chordata,Actinopterygii,Lophiiformes,Melanocetidae,
 ,,,,Clupeidaeengraulinae,,Animalia,Chordata,Actinopterygii,Clupeiformes,Engraulidae,
+Animalia,,,,Engraulididae,,Animalia,Chordata,Actinopterygii,Clupeiformes,Engraulidae,
 ,,Myxini,,,,Animalia,Chordata,Myxini,,,
 ,,Actinopteri,,,,Animalia,Chordata,Actinopterygii,,,
+Animalia,Chordata,Actinopteri,,,,Animalia,Chordata,Actinopterygii,,,
 Animalia,,,,Chauliodontidae,,Animalia,Chordata,Actinopterygii,Stomiiformes,Chauliodontidae,
 Animalia,Arthropoda,Crustacea,Macrura(nephropsidea),Nephropsidae,,Animalia,Arthropoda,Malacostraca,Decapoda,Nephropidae,
 Animalia,Chordata,,,Muraenidae,,Animalia,Chordata,Actinopterygii,Anguilliformes,Muraenidae,
@@ -13,14 +15,22 @@ Animalia,Chordata,,,Helogeneidae,,Animalia,Chordata,Actinopterygii,Siluriformes,
 Animalia,Chordata,,,Torpedinidae,,Animalia,Chordata,Chondrichthyes,Torpediniformes,Torpedinidae,
 Animalia,Chordata,,,Hiodontidae,,Animalia,Chordata,Actinopterygii,Hiodontiformes,Hiodontidae,
 Animalia,Chordata,,,Percopsidae,,Animalia,Chordata,Actinopterygii,Percopsiformes,Percopsidae,
+,,Osteichthyes,Amiiformes,,,Animalia,Chordata,Actinopterygii,Amiiformes,,
 Animalia,Chordata,Osteichthyes,Amiiformes,,,Animalia,Chordata,Actinopterygii,Amiiformes,,
+,,Osteichthyes,Crossopterygii,Panderichthyidae?,,Animalia,Chordata,Sarcopterygii,Crossopterygii,Panderichthyidae,
 Animalia,Chordata,Osteichthyes,Crossopterygii,Panderichthyidae?,,Animalia,Chordata,Sarcopterygii,Crossopterygii,Panderichthyidae,
+,,Osteichthyes,Ichthyodectiformes,,,Animalia,Chordata,Actinopterygii,Ichthyodectiformes,,
+,,Osteichthyes,Pachycormiformes,,,Animalia,Chordata,Actinopterygii,Pachycormiformes,,
+Animalia,Chordata,Osteichthyes,Ichthyodectiformes,,,Animalia,Chordata,Actinopterygii,Ichthyodectiformes,,
+Animalia,Chordata,Osteichthyes,Pachycormiformes,,,Animalia,Chordata,Actinopterygii,Pachycormiformes,,
 Animalia,Chordata,Elasmobranchii,,,,Animalia,Chordata,Chondrichthyes,,,
 Animalia,Chordata,Osteichthys,,,,Animalia,Chordata,Actinopterygii,,,
 Animalia,Chordata,Reptilia,Testudines,,,Animalia,Chordata,Reptilia,Testudines (and fossil outgroups),,
 Animalia,Chordata,Reptilia,Testudinata,Pelomedusidae,,Animalia,Chordata,Reptilia,Testudines (and fossil outgroups),Pelomedusidae,
+Animalia,Chordata,Reptilia,Testudinata,,,Animalia,Chordata,Reptilia,Testudines (and fossil outgroups),,
 Animalia,Chordata,Reptilia,Eosuchia,Parasuchidae,,Animalia,Chordata,Reptilia,Phytosauria,Parasuchidae,
 Animalia,Chordata,Reptilia,Eosuchia,,,Animalia,Chordata,Reptilia,Younginiformes,,
+Animalia,Chordata,Mammalia,,Sudamericidae,,Animalia,Chordata,Mammalia,Gondwanatheria,Sudamericidae,
 Animalia,Chordata,Mammalia,,,Widanelfarasia,Animalia,Chordata,Mammalia,Afrosoricida,,Widanelfarasia
 Animalia,Chordata,Mammalia,,Ptolemaiidae,,Animalia,Chordata,Mammalia,Ptolemaiida,Ptolemaiidae,
 Animalia,Chordata,Mammalia,Insectivora,Apatemyidae,,Animalia,Chordata,Mammalia,Cimolesta,Apatemyidae,
@@ -39,11 +49,30 @@ Animalia,Chordata,Mammalia,Primates,Adapidae,Microchoerus,Animalia,Chordata,Mamm
 Animalia,Chordata,Mammalia,Primates,Adapidae,Notharctus,Animalia,Chordata,Mammalia,Primates,Notharctidae,Notharctus
 Animalia,Chordata,Mammalia,Primates,Notharctidae,Asiadapis,Animalia,Chordata,Mammalia,Primates,Cercamoniidae,Asiadapis
 Animalia,Chordata,Mammalia,Primates,Notharctidae,Marcgodinotius,Animalia,Chordata,Mammalia,Primates,Cercamoniidae,Marcgodinotius
+Animalia,Chordata,Mammalia,Primates,Pitheciinae,,Animalia,Chordata,Mammalia,Primates,Pitheciidae,
+Animalia,Chordata,Mammalia,Primates,,Carlocebus,Animalia,Chordata,Mammalia,Primates,Homunculidae,Carlocebus
+Animalia,Chordata,Mammalia,Primates,Cebidae,Tremacebus,Animalia,Chordata,Mammalia,Primates,Homunculidae,Tremacebus
+Animalia,Chordata,Mammalia,Primates,Cebidae,Branisella,Animalia,Chordata,Mammalia,Primates,Homunculidae,Branisella
+Animalia,Chordata,Mammalia,Primates,Cebidae,Dolichocebus,Animalia,Chordata,Mammalia,Primates,Homunculidae,Dolichocebus
+Animalia,Chordata,Mammalia,Primates,Cebidae,Homunculus,Animalia,Chordata,Mammalia,Primates,Homunculidae,Homunculus
+Animalia,Chordata,Mammalia,Primates,Cebidae,Cebupithecia,Animalia,Chordata,Mammalia,Primates,Pitheciidae,Cebupithecia
+Animalia,Chordata,Mammalia,Primates,Cebidae,Callithrix,Animalia,Chordata,Mammalia,Primates,Callitrichidae,Callithrix
+Animalia,Chordata,Mammalia,Primates,Cebidae,Callimico,Animalia,Chordata,Mammalia,Primates,Callitrichidae,Callimico
+Animalia,Chordata,Mammalia,Primates,Cebidae,Leontopithecus,Animalia,Chordata,Mammalia,Primates,Callitrichidae,Leontopithecus
+Animalia,Chordata,Mammalia,Primates,Plesiadapidae,,Animalia,Chordata,Mammalia,Proprimates,Plesiadapidae,
+Animalia,Chordata,Mammalia,Primates,Paromomyidae,,Animalia,Chordata,Mammalia,Proprimates,Paromomyidae,
+Animalia,Chordata,Mammalia,Primates,Carpolestidae,,Animalia,Chordata,Mammalia,Proprimates,Carpolestidae,
+Animalia,Chordata,Mammalia,Primates,Purgatoriidae,,Animalia,Chordata,Mammalia,Proprimates,Purgatoriidae,
+Animalia,Chordata,Mammalia,Primates,Saxonellidae,,Animalia,Chordata,Mammalia,Proprimates,Saxonellidae,
+Animalia,Chordata,Mammalia,Primates,Microsyopidae,,Animalia,Chordata,Mammalia,Proprimates,Microsyopidae,
+Animalia,Chordata,Mammalia,Primates,Palaechthonidae,,Animalia,Chordata,Mammalia,Proprimates,Palaechthonidae,
+Animalia,Chordata,Mammalia,Primates,Micromomyidae,,Animalia,Chordata,Mammalia,Proprimates,Micromomyidae,
 Animalia,Chordata,Mammalia,Soricomorpha,,,Animalia,Chordata,Mammalia,Eulipotyphla,,
 Animalia,Chordata,Mammalia,Pantolesta,,,Animalia,Chordata,Mammalia,Cimolesta,,
 Animalia,Chordata,Mammalia,Hyaenodonta,,Brychotherium,Animalia,Chordata,Mammalia,Hyaenodonta,Hyaenodontidae,Brychotherium
 Animalia,Chordata,Mammalia,Hyaenodonta,,,Animalia,Chordata,Mammalia,Creodonta,,
 Animalia,Chordata,Mammalia,Erinaceomorpha,,,Animalia,Chordata,Mammalia,Eulipotyphla,,
+Animalia,Chordata,Aves,Anseriformes,,Vegavis,Animalia,Chordata,Aves,Anseriformes,Vegaviidae,Vegavis
 Animalia,Chordata,Aves,Falconiformes,Accipitridae,,Animalia,Chordata,Aves,Accipitriformes,Accipitridae,
 Animalia,Chordata,Aves,Strigiformes,Podargidae,,Animalia,Chordata,Aves,Caprimulgiformes,Podargidae,
 Animalia,Chordata,Aves,Strigiformes,Steatornithidae,,Animalia,Chordata,Aves,Caprimulgiformes,Steatornithidae,
@@ -68,18 +97,25 @@ Animalia,Chordata,Amphibia,Anura,Pelobatidae,Leptobrachium,Animalia,Chordata,Amp
 Animalia,Chordata,Amphibia,Anura,Hylidae,Stefania,Animalia,Chordata,Amphibia,Anura,Hemiphractidae,Stefania
 Animalia,Chordata,Amphibia,Anura,Ranidae,Natalobatrachus,Animalia,Chordata,Amphibia,Anura,Pyxicephalidae,Natalobatrachus
 Animalia,Chordata,Mammalia,,,,Animalia,Chordata,Mammalia (and fossil outgroups),,,
-Animalia,Chordata,Therapsida,Cynodontia,Thrinaxodontidae,,Animalia,Chordata,Mammalia (and fossil outgroups),Fossil outgroups,Thrinaxodontidae,
+Animalia,Chordata,Therapsida,Cynodontia,Thrinaxodontidae,,Animalia,Chordata,Mammalia (and fossil outgroups),Mammalia fossil outgroups,Thrinaxodontidae,
+Animalia,,Synapsid,Cynodont,Tritylodont,Thrinaxodon,Animalia,Chordata,Mammalia (and fossil outgroups),Mammalia fossil outgroups,Thrinaxodontidae,Thrinaxodon
 Animalia,Chordata,Aves,,,,Animalia,Chordata,Aves (and fossil outgroups),,,
-Animalia,Chordata,Reptilia,,Ankylosauridae,,Animalia,Chordata,Aves (and fossil outgroups),Fossil outgroups,Ankylosauridae,
-Animalia,Chordata,Reptilia,,Megalosauridae,,Animalia,Chordata,Aves (and fossil outgroups),Fossil outgroups,Megalosauridae,
-Animalia,Chordata,Reptilia,Prosauropoda,,Massospondylus,Animalia,Chordata,Aves (and fossil outgroups),Fossil outgroups,Massospondylidae,Massospondylus
-Animalia,Chordata,Reptilia,Ornithischia,,,Animalia,Chordata,Aves (and fossil outgroups),Fossil outgroups,,
-Animalia,Chordata,Reptilia,Saurischia,,,Animalia,Chordata,Aves (and fossil outgroups),Fossil outgroups,,
+Animalia,Chordata,Reptilia,,Ankylosauridae,,Animalia,Chordata,Aves (and fossil outgroups),Dinosauria (Aves fossil outgroups),Ankylosauridae,
+Animalia,Chordata,Reptilia,,Megalosauridae,,Animalia,Chordata,Aves (and fossil outgroups),Dinosauria (Aves fossil outgroups),Megalosauridae,
+Animalia,Chordata,Reptilia,Prosauropoda,,Massospondylus,Animalia,Chordata,Aves (and fossil outgroups),Dinosauria (Aves fossil outgroups),Massospondylidae,Massospondylus
+Animalia,Chordata,Reptilia,Ornithischia,,,Animalia,Chordata,Aves (and fossil outgroups),Dinosauria (Aves fossil outgroups),,
+Animalia,Chordata,Reptilia,Saurischia,,,Animalia,Chordata,Aves (and fossil outgroups),Dinosauria (Aves fossil outgroups),,
 Animalia,Chordata,Reptilia,Squamata,Xenodontinae,,Animalia,Chordata,Reptilia,Squamata,Colubridae,
 Animalia,Chordata,Reptilia,Serpentes,,,Animalia,Chordata,Reptilia,Squamata,,
 Animalia,Chordata,Reptilia,Squamata,Colubrinae,,Animalia,Chordata,Reptilia,Squamata,Colubridae,
+Animalia,Chordata,Reptilia,Squamata,Colubridae,Aparallactus,Animalia,Chordata,Reptilia,Squamata,Atractaspididae,Aparallactus
+Animalia,Chordata,Reptilia,Squamata,Lamprophiinae,Aparallactus,Animalia,Chordata,Reptilia,Squamata,Atractaspididae,Aparallactus
 Animalia,Chordata,Reptilia,Squamata,Lamprophiinae,,Animalia,Chordata,Reptilia,Squamata,Lamprophiidae,
 Animalia,Chordata,Reptilia,Squamata,Tropidurinae,,Animalia,Chordata,Reptilia,Squamata,Iguanidae,
 Animalia,Chordata,Reptilia,Squamata,Tropiduridae,,Animalia,Chordata,Reptilia,Squamata,Iguanidae,
 Animalia,Chordata,Reptilia,Squamata,Iguaninae,,Animalia,Chordata,Reptilia,Squamata,Iguanidae,
 Animalia,Chordata,Reptilia,Squamata,Gekkoninae,,Animalia,Chordata,Reptilia,Squamata,Gekkonidae,
+Animalia,Chordata,,,Chauliodontidae,,Animalia,Chordata,Actinopterygii,Stomiiformes,Stomiidae,
+Animalia,Chordata,Reptilia,Avetheropoda,,,Animalia,Chordata,Aves (and fossil outgroups),Dinosauria (Aves fossil outgroups),,
+Animalia,Chordata,Reptilia,Therapsida,,,Animalia,Chordata,Mammalia (and fossil outgroups),Mammalia fossil outgroups,,
+Animalia,Chordata,Reptilia,Sauria,Sphaerodactylidae,,Animalia,Chordata,Reptilia,Squamata,Sphaerodactylidae,
